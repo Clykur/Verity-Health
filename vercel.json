@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build -w @workspace/clinic-website",
+  "outputDirectory": "artifacts/clinic-website/dist/public",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
