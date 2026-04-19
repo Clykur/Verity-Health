@@ -30,14 +30,14 @@ function useCountUp(target: number, isInView: boolean, duration = 1.8) {
 const services = [
   { num: "01", title: "General Consultation", desc: "Thorough assessment, accurate diagnosis, and clear guidance for everyday and complex health concerns.", icon: <Activity className="w-5 h-5" /> },
   { num: "02", title: "Preventive Health Checkups", desc: "Comprehensive screenings designed to stay ahead of potential conditions before they become problems.", icon: <ShieldCheck className="w-5 h-5" /> },
-  { num: "03", title: "Skin & Hair Care", desc: "Clinical dermatology for conditions that affect how you look and feel — treated with precision.", icon: <Eye className="w-5 h-5" /> },
+  { num: "03", title: "Skin & Hair Care", desc: "Clinical dermatology for conditions that affect how you look and feel, treated with precision.", icon: <Eye className="w-5 h-5" /> },
   { num: "04", title: "Dental Care", desc: "Full-spectrum oral health services, from preventive hygiene to complex restorative treatment.", icon: <Smile className="w-5 h-5" /> },
   { num: "05", title: "Physiotherapy", desc: "Structured rehabilitation and movement programs for recovery, pain relief, and long-term mobility.", icon: <Bone className="w-5 h-5" /> },
   { num: "06", title: "Cardiac Evaluation", desc: "Heart health diagnostics and monitoring for early detection and ongoing condition management.", icon: <HeartPulse className="w-5 h-5" /> },
 ];
 
 const testimonials = [
-  { name: "Priya S.", role: "Patient since 2021", text: "For the first time in years, I felt genuinely listened to. No rush, no shortcuts — just a clear explanation of what was happening and why.", stars: 5 },
+  { name: "Priya S.", role: "Patient since 2021", text: "For the first time in years, I felt genuinely listened to. No rush, no shortcuts, just a clear explanation of what was happening and why.", stars: 5 },
   { name: "Rahul V.", role: "Patient since 2022", text: "Every appointment has been on time. The process is smooth, and you never feel like a number here.", stars: 5 },
   { name: "Ananya K.", role: "Patient since 2020", text: "Dr. Mehta explained my condition in plain language. No unnecessary tests, no vague advice. Just clarity.", stars: 5 },
   { name: "Suresh M.", role: "Patient since 2023", text: "The environment itself is calming. The staff are warm without being performative. Exactly what a clinic should feel like.", stars: 5 },
@@ -53,13 +53,13 @@ const faqs = [
 
 const steps = [
   { num: "01", icon: <Calendar className="w-6 h-6 text-[#3BAA7E]" />, title: "Book your visit", desc: "Schedule online or call us. You'll receive confirmation within a few hours and a reminder before your visit." },
-  { num: "02", icon: <Stethoscope className="w-6 h-6 text-[#3BAA7E]" />, title: "Consult with Dr. Mehta", desc: "A focused, unhurried consultation — he'll review your history, examine you, and explain his assessment clearly." },
-  { num: "03", icon: <FileText className="w-6 h-6 text-[#3BAA7E]" />, title: "Leave with a clear plan", desc: "Every patient leaves understanding their diagnosis and next steps. No jargon, no ambiguity — just clarity." },
+  { num: "02", icon: <Stethoscope className="w-6 h-6 text-[#3BAA7E]" />, title: "Consult with Dr. Mehta", desc: "A focused, unhurried consultation, he'll review your history, examine you, and explain his assessment clearly." },
+  { num: "03", icon: <FileText className="w-6 h-6 text-[#3BAA7E]" />, title: "Leave with a clear plan", desc: "Every patient leaves understanding their diagnosis and next steps. No jargon, no ambiguity, just clarity." },
 ];
 
 const whyUs = [
   { icon: <BadgeCheck className="w-5 h-5 text-[#3BAA7E]" />, title: "Evidence-based only", desc: "No unnecessary tests, no speculative prescriptions. Every recommendation is grounded in clinical evidence." },
-  { icon: <Users className="w-5 h-5 text-[#3BAA7E]" />, title: "Continuity of care", desc: "Dr. Mehta follows your case over time. You aren't handed off — you're known." },
+  { icon: <Users className="w-5 h-5 text-[#3BAA7E]" />, title: "Continuity of care", desc: "Dr. Mehta follows your case over time. You aren't handed off, you're known." },
   { icon: <Microscope className="w-5 h-5 text-[#3BAA7E]" />, title: "Modern diagnostics on-site", desc: "Core tests and evaluations are done within the clinic. Fewer referrals, faster results." },
   { icon: <Zap className="w-5 h-5 text-[#3BAA7E]" />, title: "Minimal wait times", desc: "Appointments run on schedule. Your time is treated with the same respect as your health." },
 ];
@@ -189,7 +189,7 @@ export default function Home() {
                 transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="text-lg text-[#4A5568] mb-10 max-w-lg leading-relaxed"
               >
-                A modern clinic in Bangalore offering accurate diagnosis, thoughtful treatment, and long-term well-being — without the wait.
+                A modern clinic in Bangalore offering accurate diagnosis, thoughtful treatment, and long-term well-being, without the wait.
               </motion.p>
 
               <motion.div
@@ -329,7 +329,7 @@ export default function Home() {
                 Request an<br/>appointment
               </h2>
               <p className="text-[#4A5568] leading-relaxed mb-8">
-                Fill in the form and our team will confirm your slot within a few hours. No waiting rooms — you'll know your time before you arrive.
+                Fill in the form and our team will confirm your slot within a few hours. No waiting rooms, you'll know your time before you arrive.
               </p>
               <div className="space-y-5">
                 {[
@@ -626,7 +626,7 @@ export default function Home() {
                 Designed for comfort.<br/>Built for clarity.
               </h2>
               <p className="text-[#4A5568] text-lg leading-relaxed mb-8">
-                Our clinic reduces the anxiety that often accompanies medical visits — through quiet interiors, private rooms, and a process designed around the patient, not the schedule.
+                Our clinic reduces the anxiety that often accompanies medical visits, through quiet interiors, private rooms, and a process designed around the patient, not the schedule.
               </p>
               <div className="space-y-4">
                 {["Modern diagnostic equipment on-site", "Private consultation rooms", "Minimal wait times by appointment"].map((item, i) => (
@@ -800,7 +800,7 @@ export default function Home() {
             className="text-2xl md:text-3xl lg:text-4xl font-light text-[#0A2540] leading-snug tracking-tight mb-8"
           >
             "A doctor's job is not to manage symptoms.<br className="hidden md:block" />
-            It is to find what's actually causing them —<br className="hidden md:block" />
+            It is to find what's actually causing the problem<br className="hidden md:block" />
             and to say so, clearly."
           </motion.blockquote>
           <motion.p
