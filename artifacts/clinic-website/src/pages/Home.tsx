@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
 import {
   Menu, X, MessageCircle, Star, HeartPulse, Activity,
   Stethoscope, Smile, ShieldCheck, Bone, Phone, MapPin, Clock,
-  Facebook, Instagram, Twitter, ArrowRight, Eye
+  Facebook, Instagram, Twitter, ArrowRight, Eye, CheckCircle2,
+  Calendar, FileText, BadgeCheck, Users, Microscope, Zap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +51,19 @@ const faqs = [
   { q: "What conditions does the clinic handle?", a: "We cover general medicine, preventive care, chronic conditions, skin and dental health, cardiac evaluations, and physiotherapy." },
 ];
 
+const steps = [
+  { num: "01", icon: <Calendar className="w-6 h-6 text-[#3BAA7E]" />, title: "Book your visit", desc: "Schedule online or call us. You'll receive confirmation within a few hours and a reminder before your visit." },
+  { num: "02", icon: <Stethoscope className="w-6 h-6 text-[#3BAA7E]" />, title: "Consult with Dr. Mehta", desc: "A focused, unhurried consultation — he'll review your history, examine you, and explain his assessment clearly." },
+  { num: "03", icon: <FileText className="w-6 h-6 text-[#3BAA7E]" />, title: "Leave with a clear plan", desc: "Every patient leaves understanding their diagnosis and next steps. No jargon, no ambiguity — just clarity." },
+];
+
+const whyUs = [
+  { icon: <BadgeCheck className="w-5 h-5 text-[#3BAA7E]" />, title: "Evidence-based only", desc: "No unnecessary tests, no speculative prescriptions. Every recommendation is grounded in clinical evidence." },
+  { icon: <Users className="w-5 h-5 text-[#3BAA7E]" />, title: "Continuity of care", desc: "Dr. Mehta follows your case over time. You aren't handed off — you're known." },
+  { icon: <Microscope className="w-5 h-5 text-[#3BAA7E]" />, title: "Modern diagnostics on-site", desc: "Core tests and evaluations are done within the clinic. Fewer referrals, faster results." },
+  { icon: <Zap className="w-5 h-5 text-[#3BAA7E]" />, title: "Minimal wait times", desc: "Appointments run on schedule. Your time is treated with the same respect as your health." },
+];
+
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -57,7 +71,6 @@ export default function Home() {
   const [hasShownExitIntent, setHasShownExitIntent] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingSectionVisible, setBookingSectionVisible] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -69,14 +82,10 @@ export default function Home() {
 
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 0.3], ["0%", "12%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 60);
-      const totalHeight = document.body.scrollHeight - window.innerHeight;
-      setScrollProgress(totalHeight > 0 ? (scrollY / totalHeight) * 100 : 0);
+      setIsScrolled(window.scrollY > 60);
       const bookingEl = document.getElementById("booking");
       if (bookingEl) {
         const rect = bookingEl.getBoundingClientRect();
@@ -105,13 +114,10 @@ export default function Home() {
   return (
     <div className="min-h-[100dvh] bg-white font-sans text-[#0A2540] overflow-x-hidden">
 
-      {/* Scroll progress bar */}
-      <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-[#3BAA7E] z-[60] origin-left"
-        style={{ scaleX: scrollYProgress }}
-      />
+      {/* Scroll progress */}
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#3BAA7E] z-[60] origin-left" style={{ scaleX: scrollYProgress }} />
 
-      {/* Navigation */}
+      {/* Navbar */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_0_rgba(10,37,64,0.08)]" : "bg-transparent"}`}>
         <div className="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
           <button onClick={() => scrollTo("home")} className="flex items-center gap-2 group">
@@ -160,27 +166,22 @@ export default function Home() {
       {/* Hero */}
       <section id="home" ref={heroRef} className="relative min-h-screen flex items-center pt-[72px] overflow-hidden bg-white">
         <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
-          <motion.span
-            style={{ y: heroY }}
-            className="absolute -right-16 top-1/2 -translate-y-1/2 text-[22vw] font-black text-[#F5F7FA] leading-none select-none"
-          >
+          <motion.span style={{ y: heroY }} className="absolute -right-16 top-1/2 -translate-y-1/2 text-[22vw] font-black text-[#F5F7FA] leading-none select-none">
             VERITY
           </motion.span>
         </div>
-
         <div className="relative z-10 max-w-6xl mx-auto px-6 w-full py-20 md:py-28">
           <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-20">
             <div className="w-full lg:w-[52%]">
-              <motion.div
+              <motion.h1
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[clamp(2.4rem,5.5vw,4rem)] font-medium text-[#0A2540] leading-[1.08] tracking-[-0.02em] mb-6"
               >
-                <h1 className="text-[clamp(2.4rem,5.5vw,4rem)] font-medium text-[#0A2540] leading-[1.08] tracking-[-0.02em] mb-6">
-                  Care that listens.<br />
-                  <span className="text-[#3BAA7E]">Treatment</span> that works.
-                </h1>
-              </motion.div>
+                Care that listens.<br />
+                <span className="text-[#3BAA7E]">Treatment</span> that works.
+              </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 24 }}
@@ -188,7 +189,7 @@ export default function Home() {
                 transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="text-lg text-[#4A5568] mb-10 max-w-lg leading-relaxed"
               >
-                A modern clinic in Bangalore focused on accurate diagnosis, thoughtful treatment, and long-term well-being.
+                A modern clinic in Bangalore offering accurate diagnosis, thoughtful treatment, and long-term well-being — without the wait.
               </motion.p>
 
               <motion.div
@@ -245,8 +246,8 @@ export default function Home() {
                 <div className="absolute -inset-3 bg-gradient-to-br from-[#3BAA7E]/12 to-[#0A2540]/8 rounded-3xl blur-2xl" />
                 <div className="relative aspect-[3/4] md:aspect-[4/3] lg:aspect-[3/4] rounded-2xl overflow-hidden">
                   <img
-                    src="https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                    alt="Dr. Arjun Mehta at Verity Health Clinic"
+                    src="https://images.pexels.com/photos/7089401/pexels-photo-7089401.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    alt="Doctor consulting patient at Verity Health Clinic"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/30 via-transparent to-transparent" />
@@ -274,97 +275,156 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Booking form */}
-      <section id="booking" className="py-24 bg-[#F5F7FA] relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-64 h-64 bg-[#3BAA7E]/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl pointer-events-none" />
-        <div className="max-w-3xl mx-auto px-6 relative z-10">
+      {/* How It Works */}
+      <section className="py-24 bg-[#F5F7FA] overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center mb-10"
+            className="mb-14"
           >
-            <p className="text-xs font-semibold text-[#3BAA7E] uppercase tracking-[0.15em] mb-3">Schedule a visit</p>
-            <h2 className="text-3xl md:text-4xl font-medium text-[#0A2540] tracking-tight mb-3">Request a Visit</h2>
-            <p className="text-[#4A5568]">We'll confirm your appointment within a few hours.</p>
+            <p className="text-xs font-semibold text-[#3BAA7E] uppercase tracking-[0.15em] mb-3">The process</p>
+            <h2 className="text-3xl md:text-4xl font-medium text-[#0A2540] tracking-tight">How a visit works</h2>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white p-8 md:p-10 rounded-2xl border border-[#E2E8F0] shadow-sm"
-          >
-            <AnimatePresence mode="wait">
-              {!bookingSuccess ? (
-                <motion.form key="form" onSubmit={(e) => { e.preventDefault(); setBookingSuccess(true); }} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium text-[#0A2540]">Full Name</label>
-                      <Input required placeholder="Your full name" className="bg-[#F5F7FA] border-[#E2E8F0] focus-visible:border-[#3BAA7E] focus-visible:ring-[#3BAA7E]/20 rounded-xl h-11" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium text-[#0A2540]">Phone Number</label>
-                      <Input required type="tel" placeholder="+91 98765 43210" className="bg-[#F5F7FA] border-[#E2E8F0] focus-visible:border-[#3BAA7E] focus-visible:ring-[#3BAA7E]/20 rounded-xl h-11" />
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-[#E2E8F0]">
+            {steps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="px-0 md:px-10 py-10 md:py-0 first:md:pl-0 last:md:pr-0"
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-[#3BAA7E]/10 flex items-center justify-center shrink-0">
+                    {step.icon}
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-[#0A2540]">Concern</label>
-                    <Select required>
-                      <SelectTrigger className="bg-[#F5F7FA] border-[#E2E8F0] focus:ring-[#3BAA7E]/20 rounded-xl h-11 text-[#4A5568]">
-                        <SelectValue placeholder="Select a service" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="general">General Consultation</SelectItem>
-                        <SelectItem value="preventive">Preventive Health Checkup</SelectItem>
-                        <SelectItem value="skin">Skin & Hair Care</SelectItem>
-                        <SelectItem value="dental">Dental Care</SelectItem>
-                        <SelectItem value="physio">Physiotherapy</SelectItem>
-                        <SelectItem value="cardiac">Cardiac Evaluation</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium text-[#0A2540]">Preferred Date</label>
-                      <Input required type="date" className="bg-[#F5F7FA] border-[#E2E8F0] focus-visible:border-[#3BAA7E] focus-visible:ring-[#3BAA7E]/20 rounded-xl h-11 text-[#4A5568]" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium text-[#0A2540]">Preferred Time</label>
-                      <Select required>
-                        <SelectTrigger className="bg-[#F5F7FA] border-[#E2E8F0] focus:ring-[#3BAA7E]/20 rounded-xl h-11 text-[#4A5568]">
-                          <SelectValue placeholder="Select a timeframe" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="morning">Morning — 9 AM to 12 PM</SelectItem>
-                          <SelectItem value="afternoon">Afternoon — 12 PM to 4 PM</SelectItem>
-                          <SelectItem value="evening">Evening — 4 PM to 7 PM</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <Button type="submit" className="w-full bg-[#0A2540] text-white hover:bg-[#0A2540]/90 rounded-xl h-12 text-base font-medium transition-all duration-200 hover:shadow-md">
-                    Request Appointment
-                  </Button>
-                </motion.form>
-              ) : (
-                <motion.div key="success" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className="py-14 text-center">
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 200 }} className="w-16 h-16 bg-[#3BAA7E]/12 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Stethoscope className="w-7 h-7 text-[#3BAA7E]" />
-                  </motion.div>
-                  <h3 className="text-2xl font-medium text-[#0A2540] mb-2">Request received</h3>
-                  <p className="text-[#4A5568] max-w-xs mx-auto">Our team will contact you shortly to confirm your visit.</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+                  <span className="text-xs font-semibold text-[#4A5568] tabular-nums">{step.num}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-[#0A2540] mb-3">{step.title}</h3>
+                <p className="text-[#4A5568] text-sm leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Doctor section */}
-      <section id="doctor" className="py-24 md:py-32 bg-white overflow-hidden">
+      {/* Booking Form — open layout, no card */}
+      <section id="booking" className="py-24 md:py-32 bg-white overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full lg:w-[38%] shrink-0"
+            >
+              <p className="text-xs font-semibold text-[#3BAA7E] uppercase tracking-[0.15em] mb-4">Book a visit</p>
+              <h2 className="text-3xl md:text-4xl font-medium text-[#0A2540] tracking-tight leading-tight mb-5">
+                Request an<br/>appointment
+              </h2>
+              <p className="text-[#4A5568] leading-relaxed mb-8">
+                Fill in the form and our team will confirm your slot within a few hours. No waiting rooms — you'll know your time before you arrive.
+              </p>
+              <div className="space-y-5">
+                {[
+                  "Confirmations sent within a few hours",
+                  "On-time appointments, always",
+                  "Mon–Sat 9 AM – 7 PM · Sun 10 AM – 2 PM",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-[#3BAA7E] mt-0.5 shrink-0" />
+                    <p className="text-sm text-[#4A5568]">{item}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-10 pt-8 border-t border-[#E2E8F0]">
+                <p className="text-sm text-[#4A5568] mb-1">Prefer to call?</p>
+                <a href="tel:+918179299096" className="text-[#0A2540] font-semibold hover:text-[#3BAA7E] transition-colors">+91 8179299096</a>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full lg:w-[62%]"
+            >
+              <AnimatePresence mode="wait">
+                {!bookingSuccess ? (
+                  <motion.form key="form" onSubmit={(e) => { e.preventDefault(); setBookingSuccess(true); }} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-1.5">
+                        <label className="text-sm font-medium text-[#0A2540]">Full Name</label>
+                        <Input required placeholder="Your full name" className="bg-[#F5F7FA] border-[#E2E8F0] focus-visible:border-[#3BAA7E] focus-visible:ring-[#3BAA7E]/20 rounded-xl h-12" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-sm font-medium text-[#0A2540]">Phone Number</label>
+                        <Input required type="tel" placeholder="+91 98765 43210" className="bg-[#F5F7FA] border-[#E2E8F0] focus-visible:border-[#3BAA7E] focus-visible:ring-[#3BAA7E]/20 rounded-xl h-12" />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-medium text-[#0A2540]">Concern</label>
+                      <Select required>
+                        <SelectTrigger className="bg-[#F5F7FA] border-[#E2E8F0] focus:ring-[#3BAA7E]/20 rounded-xl h-12 text-[#4A5568]">
+                          <SelectValue placeholder="What would you like to discuss?" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="general">General Consultation</SelectItem>
+                          <SelectItem value="preventive">Preventive Health Checkup</SelectItem>
+                          <SelectItem value="skin">Skin & Hair Care</SelectItem>
+                          <SelectItem value="dental">Dental Care</SelectItem>
+                          <SelectItem value="physio">Physiotherapy</SelectItem>
+                          <SelectItem value="cardiac">Cardiac Evaluation</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-1.5">
+                        <label className="text-sm font-medium text-[#0A2540]">Preferred Date</label>
+                        <Input required type="date" className="bg-[#F5F7FA] border-[#E2E8F0] focus-visible:border-[#3BAA7E] focus-visible:ring-[#3BAA7E]/20 rounded-xl h-12 text-[#4A5568]" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-sm font-medium text-[#0A2540]">Preferred Time</label>
+                        <Select required>
+                          <SelectTrigger className="bg-[#F5F7FA] border-[#E2E8F0] focus:ring-[#3BAA7E]/20 rounded-xl h-12 text-[#4A5568]">
+                            <SelectValue placeholder="Morning / Afternoon / Evening" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="morning">Morning — 9 AM to 12 PM</SelectItem>
+                            <SelectItem value="afternoon">Afternoon — 12 PM to 4 PM</SelectItem>
+                            <SelectItem value="evening">Evening — 4 PM to 7 PM</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <Button type="submit" className="w-full bg-[#0A2540] text-white hover:bg-[#0A2540]/90 rounded-xl h-12 text-base font-medium transition-all duration-200 hover:shadow-md mt-2">
+                      Confirm Request
+                    </Button>
+                  </motion.form>
+                ) : (
+                  <motion.div key="success" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className="py-16">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 200 }} className="w-14 h-14 bg-[#3BAA7E]/12 rounded-full flex items-center justify-center mb-6">
+                      <CheckCircle2 className="w-7 h-7 text-[#3BAA7E]" />
+                    </motion.div>
+                    <h3 className="text-2xl font-medium text-[#0A2540] mb-3">Request received</h3>
+                    <p className="text-[#4A5568] max-w-sm leading-relaxed">Our team will call you shortly to confirm your appointment. Thank you for choosing Verity Health.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Doctor */}
+      <section id="doctor" className="py-24 md:py-32 bg-[#F5F7FA] overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
             <motion.div
@@ -377,7 +437,11 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-br from-[#3BAA7E]/8 to-transparent rounded-3xl blur-2xl" />
                 <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
-                  <img src="https://images.pexels.com/photos/5452201/pexels-photo-5452201.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Dr. Arjun Mehta" className="w-full h-full object-cover" />
+                  <img
+                    src="https://images.pexels.com/photos/4588052/pexels-photo-4588052.jpeg?auto=compress&cs=tinysrgb&w=800"
+                    alt="Dr. Arjun Mehta — Verity Health Clinic"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-[#0A2540] text-white rounded-xl p-4 shadow-xl">
                   <p className="text-2xl font-semibold tabular-nums">15+</p>
@@ -412,7 +476,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-[#4A5568] font-medium mb-7"
               >
-                MBBS, MD (Internal Medicine)
+                MBBS, MD (Internal Medicine) · National Medical Commission Certified
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
@@ -421,7 +485,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.15 }}
                 className="text-[#4A5568] text-lg leading-relaxed mb-8 max-w-lg"
               >
-                Dr. Mehta's practice is built on one principle: the patient should leave understanding exactly what is happening in their body and why. His approach avoids unnecessary tests and prioritizes practical, long-term treatment plans.
+                Dr. Mehta's practice is built on one principle: every patient should leave understanding exactly what is happening in their body and why. He avoids unnecessary investigations and focuses on practical, long-term treatment plans.
               </motion.p>
 
               <motion.div
@@ -432,7 +496,7 @@ export default function Home() {
                 className="flex flex-wrap gap-2 mb-10"
               >
                 {["Internal Medicine", "Preventive Health", "Chronic Condition Care"].map((tag) => (
-                  <span key={tag} className="px-3.5 py-1.5 bg-[#F5F7FA] text-[#4A5568] text-sm rounded-full border border-[#E2E8F0] font-medium">
+                  <span key={tag} className="px-3.5 py-1.5 bg-white text-[#4A5568] text-sm rounded-full border border-[#E2E8F0] font-medium">
                     {tag}
                   </span>
                 ))}
@@ -456,7 +520,7 @@ export default function Home() {
                 </div>
                 <div className="hidden sm:block w-px bg-[#E2E8F0]" />
                 <div>
-                  <p className="text-sm font-semibold text-[#0A2540]">Patients seen</p>
+                  <p className="text-sm font-semibold text-[#0A2540]">Patients cared for</p>
                   <p className="text-sm text-[#4A5568] mt-0.5">1,000+</p>
                 </div>
               </motion.div>
@@ -466,7 +530,7 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="py-24 bg-[#F5F7FA] overflow-hidden">
+      <section id="services" className="py-24 bg-white overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <motion.div
@@ -492,12 +556,54 @@ export default function Home() {
               >
                 <div className="flex items-start justify-between mb-6">
                   <span className="text-xs font-semibold text-[#4A5568] group-hover:text-white/50 transition-colors tabular-nums">{service.num}</span>
-                  <div className="w-9 h-9 rounded-lg bg-[#F5F7FA] group-hover:bg-white/10 transition-colors flex items-center justify-center text-[#3BAA7E] group-hover:text-[#3BAA7E]">
+                  <div className="w-9 h-9 rounded-lg bg-[#F5F7FA] group-hover:bg-white/10 transition-colors flex items-center justify-center text-[#3BAA7E]">
                     {service.icon}
                   </div>
                 </div>
                 <h3 className="text-base font-semibold text-[#0A2540] group-hover:text-white transition-colors mb-3">{service.title}</h3>
                 <p className="text-sm text-[#4A5568] group-hover:text-white/65 transition-colors leading-relaxed">{service.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Verity Health */}
+      <section className="py-24 bg-[#0A2540] overflow-hidden relative">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </div>
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7 }}
+            className="mb-14"
+          >
+            <p className="text-xs font-semibold text-[#3BAA7E] uppercase tracking-[0.15em] mb-3">Why Verity Health</p>
+            <h2 className="text-3xl md:text-4xl font-medium text-white tracking-tight max-w-lg">
+              Medicine without the ambiguity
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 divide-y divide-white/10">
+            {whyUs.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-start gap-5 py-8"
+              >
+                <div className="w-10 h-10 rounded-xl bg-white/8 flex items-center justify-center shrink-0 mt-0.5">
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-white mb-1.5">{item.title}</h3>
+                  <p className="text-white/55 text-sm leading-relaxed">{item.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -520,14 +626,10 @@ export default function Home() {
                 Designed for comfort.<br/>Built for clarity.
               </h2>
               <p className="text-[#4A5568] text-lg leading-relaxed mb-8">
-                Our clinic is designed to reduce stress and support focused care — quiet interiors, modern diagnostics, and a patient-first environment. Nothing clinical for its own sake.
+                Our clinic reduces the anxiety that often accompanies medical visits — through quiet interiors, private rooms, and a process designed around the patient, not the schedule.
               </p>
               <div className="space-y-4">
-                {[
-                  "Modern diagnostic equipment",
-                  "Private consultation rooms",
-                  "Minimal wait times by appointment",
-                ].map((item, i) => (
+                {["Modern diagnostic equipment on-site", "Private consultation rooms", "Minimal wait times by appointment"].map((item, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -12 }}
@@ -568,12 +670,8 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-[#0A2540] overflow-hidden relative">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <section className="py-24 bg-[#F5F7FA] overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -582,7 +680,7 @@ export default function Home() {
             className="mb-14"
           >
             <p className="text-xs font-semibold text-[#3BAA7E] uppercase tracking-[0.15em] mb-3">Patient feedback</p>
-            <h2 className="text-3xl md:text-4xl font-medium text-white tracking-tight">What patients say</h2>
+            <h2 className="text-3xl md:text-4xl font-medium text-[#0A2540] tracking-tight">What patients say</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -593,23 +691,21 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`bg-white/5 border border-white/10 rounded-xl p-8 hover:bg-white/8 transition-colors duration-300 ${i === 0 ? "md:col-span-2 md:grid md:grid-cols-2 md:items-center md:gap-8" : ""}`}
+                className={`border border-[#E2E8F0] rounded-xl p-8 bg-white hover:shadow-sm transition-shadow duration-300 ${i === 0 ? "md:col-span-2" : ""}`}
               >
-                <div>
-                  <div className="flex mb-4">
-                    {[1,2,3,4,5].map(s => <Star key={s} className="w-3.5 h-3.5 fill-[#3BAA7E] text-[#3BAA7E] mr-0.5" />)}
-                  </div>
-                  <p className={`text-white leading-relaxed mb-6 ${i === 0 ? "text-xl md:text-2xl font-light" : "text-base"}`}>
-                    "{t.text}"
-                  </p>
+                <div className="flex mb-5">
+                  {[1,2,3,4,5].map(s => <Star key={s} className="w-3.5 h-3.5 fill-[#3BAA7E] text-[#3BAA7E] mr-0.5" />)}
                 </div>
+                <p className={`text-[#0A2540] leading-relaxed mb-6 ${i === 0 ? "text-xl md:text-2xl font-light" : "text-base"}`}>
+                  "{t.text}"
+                </p>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs font-semibold shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-[#F5F7FA] border border-[#E2E8F0] flex items-center justify-center text-[#0A2540] text-xs font-semibold shrink-0">
                     {t.name[0]}
                   </div>
                   <div>
-                    <p className="text-white text-sm font-medium">{t.name}</p>
-                    <p className="text-white/50 text-xs">{t.role}</p>
+                    <p className="text-[#0A2540] text-sm font-medium">{t.name}</p>
+                    <p className="text-[#4A5568] text-xs">{t.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -707,17 +803,16 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl overflow-hidden border border-[#E2E8F0] min-h-[380px] shadow-sm"
+              className="rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-sm"
+              style={{ minHeight: 380 }}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1p3!2d77.5946!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBangalore%2C%20Karnataka%2C%20India!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                title="Verity Health Clinic – Bangalore"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=77.5146%2C12.9116%2C77.6746%2C13.0316&layer=mapnik&marker=12.9716%2C77.5946"
                 width="100%"
                 height="100%"
-                style={{ border: 0, minHeight: "380px" }}
-                allowFullScreen
+                style={{ border: 0, minHeight: 380, display: "block" }}
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Verity Health Clinic Location"
               />
             </motion.div>
           </div>
@@ -787,7 +882,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Exit intent popup */}
+      {/* Exit intent */}
       <AnimatePresence>
         {showExitIntent && (
           <motion.div
