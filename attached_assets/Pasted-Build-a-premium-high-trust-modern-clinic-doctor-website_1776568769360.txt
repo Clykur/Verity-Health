@@ -1,0 +1,175 @@
+Build a premium, high-trust, modern clinic/doctor website using Next.js (App Router), Tailwind CSS, and Framer Motion.
+
+Goal:
+Create a clean, Apple-level, medical-grade website that builds instant trust and converts visitors into appointment bookings.
+
+Brand Context:
+- Location: Bangalore, India
+- Audience: high-value patients, professionals, families
+- Tone: calm, minimal, trustworthy, premium (not flashy like gyms)
+
+Design System:
+- Color palette: white, soft gray, light blue, subtle green accents
+- Typography: Inter / SF Pro style (clean, readable, modern)
+- Use lots of white space (Apple-like spacing)
+- Rounded corners, soft shadows, glass effects
+- Smooth, subtle animations (no aggressive motion)
+
+Images:
+- Use high-quality images from Pexels:
+   - Doctors consulting patients
+   - Clean clinic interiors
+   - Medical equipment (modern)
+   - Happy patients
+- Avoid stocky/artificial images — choose realistic and premium
+
+---
+
+PAGES / SECTIONS:
+
+1. HERO SECTION (Trust-first)
+- Clean background (clinic image or white gradient)
+- Headline:
+   “Expert Care. Trusted Results.”
+- Subtext:
+   “Premium healthcare experience in Bangalore with experienced specialists.”
+- CTA Buttons:
+   - “Book Appointment” (primary)
+   - “Call Now”
+- Add trust badges:
+   ✔ 10,000+ patients treated
+   ✔ Certified specialists
+   ✔ Advanced treatments
+
+---
+
+2. QUICK APPOINTMENT BOOKING (Above the fold)
+- Form fields:
+   - Name
+   - Phone
+   - Treatment / Concern dropdown
+   - Preferred date & time
+- CTA: “Confirm Appointment”
+- Show instant confirmation message UI (no backend needed, simulate success)
+
+---
+
+3. DOCTOR CREDIBILITY SECTION (MOST IMPORTANT)
+- Doctor profile:
+   - Image (professional)
+   - Name
+   - Qualification
+   - Years of experience
+- Add:
+   - Certifications
+   - Specializations
+   - “Trusted by 1000+ patients”
+- Layout should feel premium like Apple product pages
+
+---
+
+4. SERVICES / TREATMENTS
+- Grid layout:
+   - General Consultation
+   - Skin Care
+   - Dental Care
+   - Physiotherapy
+   - etc.
+- Each card:
+   - Icon/image
+   - Short description
+   - “Learn More”
+
+---
+
+5. PATIENT TESTIMONIALS
+- Clean slider
+- Include:
+   - Patient name
+   - Short review
+- Add subtle animation
+- Highlight 1 testimonial as featured
+
+---
+
+6. FAQ SECTION
+- Expandable accordion
+- Questions like:
+   - How to book appointment?
+   - Consultation charges?
+   - Available timings?
+   - Emergency support?
+
+---
+
+7. TRUST SECTION (VERY IMPORTANT)
+- Show:
+   - Clinic images
+   - Equipment visuals
+- Add text:
+   “Modern facilities with patient-first approach”
+
+---
+
+8. LOCATION & CONTACT
+- Bangalore, India
+- Embed Google Map
+- Phone: +91 8179299096
+- Working hours
+
+---
+
+9. STICKY CTA
+- Bottom sticky bar:
+   “Book Appointment Now”
+- Floating WhatsApp button:
+   https://wa.me/918179299096
+
+---
+
+10. FOOTER
+- Minimal
+- Links:
+   Home / Services / Contact
+- Social icons
+
+---
+
+UX / CONVERSION FEATURES:
+
+- Sticky navbar with blur effect
+- Smooth scrolling
+- CTA repeated every 2 sections
+- Exit popup:
+   “Get Free Consultation Today”
+- Subtle hover effects (scale, shadow)
+- No clutter — maintain clean hierarchy
+
+---
+
+ANIMATIONS:
+
+- Fade-in sections on scroll
+- Smooth button hover glow
+- Image reveal animations
+- Micro-interactions for inputs
+
+---
+
+TECH REQUIREMENTS:
+
+- Next.js latest (App Router)
+- Tailwind CSS
+- Framer Motion
+- Fully responsive (mobile-first)
+- Optimized images (next/image)
+- Clean folder structure (components, sections)
+
+---
+
+OUTPUT:
+
+- Production-ready code
+- Premium UI (not template-like)
+- No unnecessary comments
+- Focus on trust, clarity, and conversion

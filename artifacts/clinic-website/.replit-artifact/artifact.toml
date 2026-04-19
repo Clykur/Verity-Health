@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Clinic Website"
+version = "1.0.0"
+id = "artifacts/clinic-website"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25399
+
+[services.development]
+run = "pnpm --filter @workspace/clinic-website run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/clinic-website", "run", "build" ]
+publicDir = "artifacts/clinic-website/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25399"
+BASE_PATH = "/"
