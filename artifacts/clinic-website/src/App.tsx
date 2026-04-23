@@ -4,6 +4,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import { motion } from "framer-motion";
+import { fadeIn } from "@/lib/motion";
+
 
 const queryClient = new QueryClient();
 
@@ -21,7 +24,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
+          <motion.div
+            variants={fadeIn}
+            initial="initial"
+            animate="animate"
+            className="flex flex-col min-h-screen"
+          >
+            <Router />
+          </motion.div>
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
