@@ -1,0 +1,116 @@
+.booking-card-wrap {
+  position: relative;
+}
+
+/* Floating orbs behind the card */
+.booking-card-wrap::before,
+.booking-card-wrap::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+.booking-card-wrap::before {
+  width: 420px;
+  height: 420px;
+  top: -80px;
+  right: -100px;
+  background: radial-gradient(circle at 40% 40%,
+    rgba(59,170,126,0.22) 0%,
+    rgba(59,170,126,0.08) 50%,
+    transparent 70%
+  );
+  animation: orb-drift-a 9s ease-in-out infinite alternate;
+}
+.booking-card-wrap::after {
+  width: 340px;
+  height: 340px;
+  bottom: -60px;
+  left: -80px;
+  background: radial-gradient(circle at 60% 60%,
+    rgba(10,37,64,0.14) 0%,
+    rgba(59,170,126,0.10) 45%,
+    transparent 70%
+  );
+  animation: orb-drift-b 11s ease-in-out infinite alternate;
+}
+
+/* Tiny orblets inside the card */
+.water-drop-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.water-drop-bg span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(32px);
+  opacity: 0.55;
+}
+.water-drop-bg span:nth-child(1) {
+  width: 220px; height: 220px;
+  top: -60px; right: 10%;
+  background: radial-gradient(circle, rgba(59,170,126,0.35), transparent 70%);
+  animation: droplet-float 8s ease-in-out infinite alternate;
+}
+.water-drop-bg span:nth-child(2) {
+  width: 160px; height: 160px;
+  bottom: 10%; left: 5%;
+  background: radial-gradient(circle, rgba(10,37,64,0.18), transparent 70%);
+  animation: droplet-float 12s ease-in-out infinite alternate-reverse;
+}
+.water-drop-bg span:nth-child(3) {
+  width: 100px; height: 100px;
+  top: 50%; right: 8%;
+  background: radial-gradient(circle, rgba(59,170,126,0.20), transparent 70%);
+  animation: droplet-float 7s ease-in-out 2s infinite alternate;
+}
+.water-drop-bg span:nth-child(4) {
+  width: 70px; height: 70px;
+  top: 20%; left: 15%;
+  background: radial-gradient(circle, rgba(59,170,126,0.25), transparent 70%);
+  animation: droplet-float 10s ease-in-out 1s infinite alternate-reverse;
+}
+
+@keyframes orb-drift-a {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-24px, 18px) scale(1.06); }
+}
+@keyframes orb-drift-b {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(20px, -16px) scale(1.04); }
+}
+@keyframes droplet-float {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(12px, -14px) scale(1.08); }
+}
+
+/* Shimmer highlight on top edge */
+.water-shimmer {
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.85) 40%,
+    rgba(255,255,255,0.85) 60%,
+    transparent
+  );
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.booking-card {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.38) 50%, rgba(240,250,246,0.55) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow:
+    0 8px 48px rgba(59,170,126,0.10), 0 2px 12px rgba(10,37,64,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+}
